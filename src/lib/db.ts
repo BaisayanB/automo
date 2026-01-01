@@ -6,7 +6,7 @@ const globalForPrisma = global as unknown as {
 };
 
 const adapter = new PrismaNeon({
-  connectionString: process.env.DATABASE_URL!,
+  connectionString: process.env.DATABASE_URL,
 });
 
 const prisma = globalForPrisma.prisma || new PrismaClient({ adapter });
