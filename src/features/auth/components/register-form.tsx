@@ -90,14 +90,12 @@ export function RegisterForm() {
                     type="button"
                     disabled={isPending}
                   >
-                    Continue with Github
-                  </Button>
-                  <Button
-                    variant="outline"
-                    className="w-full"
-                    type="button"
-                    disabled={isPending}
-                  >
+                    <Image
+                      src="/google.svg"
+                      width={20}
+                      height={20}
+                      alt="Google"
+                    />
                     Continue with Google
                   </Button>
                 </div>
