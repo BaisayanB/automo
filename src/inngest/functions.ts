@@ -36,7 +36,7 @@ export const execute = inngest.createFunction(
       "anthropic-generate-text",
       generateText,
       {
-        model: anthropic("claude-sonnet-4-5"),
+        model: anthropic("claude-3-haiku-20240307"),
         system: "You are a helpful assistant.",
         prompt: "What is photosynthesis",
       }
