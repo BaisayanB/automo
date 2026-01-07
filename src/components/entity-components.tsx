@@ -50,3 +50,7 @@ export const EntityHeader = ({
     </div>
   );
 };
+
+export const EntityContainer = () => {
+  return <div></div>;
+};
