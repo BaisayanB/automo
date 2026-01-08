@@ -8,7 +8,7 @@ import { ErrorBoundary } from "react-error-boundary";
 const Page = async () => {
   await requireAuth();
 
-  prefetchWorkflows
+  prefetchWorkflows();
 
   return (
     <WorkflowsContainer>
