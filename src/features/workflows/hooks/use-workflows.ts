@@ -7,6 +7,7 @@ import {
 import { toast } from "sonner";
 import { useWorkflowParams } from "./use-workflow-params";
 
+// hook to fetch all workflows by suspense
 export const useSuspenseWorkflows = () => {
   const trpc = useTRPC();
   const [params] = useWorkflowParams();
@@ -50,4 +51,10 @@ export const useRemoveWorkflow = (id: string) => {
       },
     })
   );
+};
+
+// hook to fetach one workflow by suspense
+export const useSuspenseWorkflow = (id: string) => {
+  const trpc = useTRPC();
+  return useSuspenseQuery(trpc.workflows.getOne.queryOptions({ id }));
 };
