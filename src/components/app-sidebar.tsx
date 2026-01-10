@@ -53,7 +53,7 @@ export const AppSidebar = () => {
       <SidebarHeader>
         <SidebarMenuButton asChild className="gap-x-4 h-12 px-4">
           <Link href="/workflows" prefetch>
-            <Image src="logo.svg" alt="Automo" width={32} height={32} />
+            <Image src="/logo.svg" alt="Automo" width={32} height={32} />
             <span className="text-sm font-semibold">Automo</span>
           </Link>
         </SidebarMenuButton>
