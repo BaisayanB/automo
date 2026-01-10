@@ -16,12 +16,12 @@ import {
 } from "@xyflow/react";
 import type { Node, Edge } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
-// import { nodeComponents } from "@/config/node-components";
-// import { AddNodeButton } from "./add-node-button";
 // import { useSetAtom } from "jotai";
 // import { editorAtom } from "@/features/editor/store/atoms";
 import { ErrorView, LoadingView } from "@/components/entity-components";
 import { useSuspenseWorkflow } from "@/features/workflows/hooks/use-workflows";
+import { nodeComponents } from "@/config/node-components";
+import { AddNodeButton } from "./add-node-button";
 
 export const EditorLoading = () => {
   return <LoadingView message="Loading editor..." />;
@@ -60,6 +60,7 @@ export const Editor = ({ workflowId }: { workflowId: string }) => {
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
+        nodeTypes={nodeComponents}
         fitView
         proOptions={{
           hideAttribution: true,
@@ -68,6 +69,9 @@ export const Editor = ({ workflowId }: { workflowId: string }) => {
         <Background />
         <Controls />
         <MiniMap />
+        <Panel position="top-right">
+          <AddNodeButton />
+        </Panel>
       </ReactFlow>
     </div>
   );
