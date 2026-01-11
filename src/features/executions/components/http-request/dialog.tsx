@@ -1,5 +1,6 @@
 "use client";
 
+import { z } from "zod";
 import {
   Dialog,
   DialogContent,
@@ -9,7 +10,6 @@ import {
   DialogFooter,
   DialogClose,
 } from "@/components/ui/dialog";
-import { z } from "zod";
 import {
   Form,
   FormControl,
@@ -48,7 +48,6 @@ const formSchema = z.object({
   endpoint: z.url({ message: "Please enter a valid URL" }),
   method: z.enum(["GET", "POST", "PUT", "PATCH", "DELETE"]),
   body: z.string().optional(),
-  // .refine()
 });
 
 export const HttpRequestDialog = ({
@@ -61,7 +60,6 @@ export const HttpRequestDialog = ({
 }: Props) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-
     defaultValues: {
       endpoint: defaultEndpoint,
       method: defaultMethod,
@@ -81,7 +79,6 @@ export const HttpRequestDialog = ({
 
   const watchMethod = form.watch("method");
   const showBodyField = ["POST", "PUT", "PATCH"].includes(watchMethod);
-
   const handleSubmit = (values: z.infer<typeof formSchema>) => {
     onSubmit(values);
     onOpenChange(false);
@@ -92,34 +89,15 @@ export const HttpRequestDialog = ({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>HTTP Request</DialogTitle>
-          <DialogDescription>Configure settings for the HTTP Request node.</DialogDescription>
+          <DialogDescription>
+            Configure settings for the HTTP Request node.
+          </DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(handleSubmit)}
-            className="space-y-6 mt-4"
+            className="space-y-8 mt-4"
           >
-            <FormField
-              control={form.control}
-              name="endpoint"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Endpoint</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="https://api.example.com/endpoint"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    Static URL or use {"{{variables}}"} for simple values or{" "}
-                    {"{{json variable}}"} to stringify objects
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
             <FormField
               control={form.control}
               name="method"
@@ -149,6 +127,26 @@ export const HttpRequestDialog = ({
               )}
             />
 
+            <FormField
+              control={form.control}
+              name="endpoint"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Endpoint URL</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="https://api.example.com/users/{{httpResponse.data.id}}"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    Static URL or use {"{{variables}}"} for simple values or {"{{json variable}}"} to stringify objects
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
             {showBodyField && (
               <FormField
                 control={form.control}
@@ -159,7 +157,7 @@ export const HttpRequestDialog = ({
                     <FormControl>
                       <Textarea
                         placeholder={`Enter JSON request body:\n {\n \"userId\": \"{{httpResponse.data.id}}\",\n \"name\": \"{{httpResponse.data.name}}\",\n \"items\": \"{{json httpResponse.data.items}}\"\n}`}
-                        className="min-h-[100px] p-2 text-sm font-mono"
+                        className="min-h-30 text-sm font-mono"
                         {...field}
                       />
                     </FormControl>
@@ -173,11 +171,12 @@ export const HttpRequestDialog = ({
                 )}
               />
             )}
+
             <DialogFooter className="mt-4">
               <DialogClose className="mr-2 bg-accent p-2 rounded-md">
                 Cancel
               </DialogClose>
-              <Button type="submit" className="bg-primary p-2 rounded-md">
+              <Button type="submit">
                 Save
               </Button>
             </DialogFooter>
