@@ -28,7 +28,7 @@ export const useCreateWorkflow = () => {
       onError: (error) => {
         toast.error(`Failed to create workflow: ${error.message}`);
       },
-    })
+    }),
   );
 };
 
@@ -43,13 +43,13 @@ export const useRemoveWorkflow = (id: string) => {
         toast.success(`Workflow ${data.name} removed`);
         queryClient.invalidateQueries(trpc.workflows.getMany.queryOptions({}));
         queryClient.invalidateQueries(
-          trpc.workflows.getOne.queryFilter({ id: data.id })
+          trpc.workflows.getOne.queryFilter({ id: data.id }),
         );
       },
       onError: (error) => {
         toast.error(`Failed to remove workflow: ${error.message}`);
       },
-    })
+    }),
   );
 };
 
@@ -70,13 +70,13 @@ export const useUpdateWorkflowName = () => {
         toast.success(`Workflow ${data.name} updated`);
         queryClient.invalidateQueries(trpc.workflows.getMany.queryOptions({}));
         queryClient.invalidateQueries(
-          trpc.workflows.getOne.queryOptions({ id: data.id })
+          trpc.workflows.getOne.queryOptions({ id: data.id }),
         );
       },
       onError: (error) => {
         toast.error(`Failed to update workflow: ${error.message}`);
       },
-    })
+    }),
   );
 };
 
@@ -91,12 +91,29 @@ export const useUpdateWorkflow = () => {
         toast.success(`Workflow ${data.name} saved`);
         queryClient.invalidateQueries(trpc.workflows.getMany.queryOptions({}));
         queryClient.invalidateQueries(
-          trpc.workflows.getOne.queryOptions({ id: data.id })
+          trpc.workflows.getOne.queryOptions({ id: data.id }),
         );
       },
       onError: (error) => {
         toast.error(`Failed to save workflow: ${error.message}`);
       },
-    })
+    }),
+  );
+};
+
+// hook to execute workflow
+export const useExecuteWorkflow = () => {
+  const trpc = useTRPC();
+
+  return useMutation(
+    trpc.workflows.execute.mutationOptions({
+      onSuccess: (data) => {
+        toast.success(`Workflow ${data.name} executed`);
+        trpc.workflows.getOne.queryOptions({ id: data.id });
+      },
+      onError: (error) => {
+        toast.error(`Failed to execute workflow: ${error.message}`);
+      },
+    }),
   );
 };
